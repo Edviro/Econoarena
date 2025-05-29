@@ -8,23 +8,27 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+        /* Base styles for light mode (default) */
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #f8fafc; /* Very light background for minimalist look */
             min-height: 100vh;
+            color: #333; /* Default text color */
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
         
-        /* Glassmorphism effect for main content */
+        /* Glassmorphism effect for main content - adapted for light mode */
         .glass-effect {
-            background: rgba(255, 255, 255, 0.25);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            background: #ffffff; /* White background */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Subtle shadow */
             backdrop-filter: blur(4px);
             -webkit-backdrop-filter: blur(4px);
             border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            border: 1px solid #e2e8f0; /* Light border */
+            transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
         }
         
-        /* Fixed Sidebar Styling */
+        /* Fixed Sidebar Styling - adapted for light mode */
         .sidebar {
             position: fixed;
             top: 0;
@@ -32,8 +36,8 @@
             height: 100vh;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 1000;
-            background: linear-gradient(180deg, #1f2937 0%, #111827 100%);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            background: #ffffff; /* White sidebar */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
             width: 280px; /* Default width for desktop */
         }
         
@@ -46,8 +50,7 @@
             margin-left: 280px; /* Default margin for desktop */
             transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             min-height: 100vh;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            background: transparent; /* Main content area is transparent to show body background */
         }
         
         .main-content.expanded {
@@ -69,7 +72,7 @@
             left: 0;
             width: 0;
             height: 100%;
-            background: linear-gradient(90deg, #4f46e5, #7c3aed);
+            background: linear-gradient(90deg, #4f46e5, #7c3aed); /* Accent gradient */
             transition: width 0.3s ease;
             z-index: 0;
         }
@@ -85,10 +88,15 @@
             display: flex;
             align-items: center;
             padding: 16px;
-            color: #d1d5db;
+            color: #4b5563; /* Darker text for light sidebar */
             text-decoration: none;
             transition: all 0.3s ease;
             border-radius: 12px;
+        }
+
+        .nav-item:hover .nav-link,
+        .nav-item.active .nav-link {
+            color: white; /* White text on hover/active gradient */
         }
         
         /* Icon sizing - larger when collapsed */
@@ -97,6 +105,12 @@
             height: 24px;
             min-width: 24px;
             transition: all 0.3s ease;
+            color: #6b7280; /* Default icon color */
+        }
+
+        .nav-item:hover .nav-icon,
+        .nav-item.active .nav-icon {
+            color: white; /* White icon on hover/active */
         }
         
         .sidebar.collapsed .nav-icon {
@@ -125,7 +139,7 @@
             left: 90px;
             top: 50%;
             transform: translateY(-50%);
-            background: #1f2937;
+            background: #4b5563; /* Dark grey tooltip background */
             color: white;
             padding: 8px 12px;
             border-radius: 6px;
@@ -145,7 +159,7 @@
             top: 50%;
             transform: translateY(-50%);
             border: 5px solid transparent;
-            border-right-color: #1f2937;
+            border-right-color: #4b5563;
         }
         
         .sidebar.collapsed .nav-item:hover .tooltip {
@@ -156,10 +170,16 @@
         /* Logo adjustments */
         .logo-container {
             padding: 24px 16px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid #e2e8f0; /* Light border */
             margin-bottom: 24px;
+            transition: border-color 0.3s ease;
         }
         
+        .logo-text {
+            color: #333; /* Dark text for logo */
+            transition: color 0.3s ease;
+        }
+
         .sidebar.collapsed .logo-text {
             display: none;
         }
@@ -172,15 +192,15 @@
         .kpi-card {
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            background: rgba(255, 255, 255, 0.9);
+            background: #ffffff; /* White background */
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid #e2e8f0; /* Light border */
         }
         
         .kpi-card:hover {
             transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08); /* Slightly more pronounced shadow on hover */
+            background: #ffffff;
         }
         
         /* Chart containers with improved styling */
@@ -188,10 +208,11 @@
             position: relative;
             height: 300px;
             width: 100%;
-            background: rgba(255, 255, 255, 0.9);
+            background: #ffffff; /* White background */
             border-radius: 12px;
             padding: 20px;
             backdrop-filter: blur(10px);
+            transition: background-color 0.3s ease;
         }
         
         /* Enhanced buttons */
@@ -220,11 +241,12 @@
         .search-input {
             width: 100%;
             padding: 12px 16px 12px 48px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid #cbd5e1; /* Light border */
             border-radius: 12px;
-            background: rgba(255, 255, 255, 0.9);
+            background: #f8fafc; /* Very light background for input */
             backdrop-filter: blur(10px);
             font-size: 16px;
+            color: #333; /* Dark text for input */
             transition: all 0.3s ease;
         }
         
@@ -239,7 +261,8 @@
             left: 16px;
             top: 50%;
             transform: translateY(-50%);
-            color: #6b7280;
+            color: #94a3b8; /* Light grey icon */
+            transition: color 0.3s ease;
         }
         
         /* Dark mode toggle */
@@ -247,8 +270,8 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: #ffffff; /* White background */
+            border: 1px solid #e2e8f0; /* Light border */
             border-radius: 50%;
             width: 50px;
             height: 50px;
@@ -262,8 +285,13 @@
         }
         
         .theme-toggle:hover {
-            background: rgba(255, 255, 255, 0.3);
+            background: #f0f2f5;
             transform: scale(1.1);
+        }
+
+        .theme-toggle svg {
+            color: #4b5563; /* Dark icon for light mode */
+            transition: color 0.3s ease;
         }
         
         /* Notification badge animation */
@@ -314,7 +342,7 @@
         .loading-spinner {
             width: 40px;
             height: 40px;
-            border: 4px solid rgba(255, 255, 255, 0.3);
+            border: 4px solid rgba(0, 0, 0, 0.1); /* Lighter spinner for light mode */
             border-top: 4px solid #667eea;
             border-radius: 50%;
             animation: spin 1s linear infinite;
@@ -349,7 +377,7 @@
         }
 
         .modal-content {
-            background: rgba(255, 255, 255, 0.95);
+            background: #ffffff; /* White modal content */
             backdrop-filter: blur(10px);
             border-radius: 12px;
             padding: 30px;
@@ -382,13 +410,179 @@
             text-decoration: none;
             cursor: pointer;
         }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background: #1e293b; /* Dark background */
+            color: #cbd5e1; /* Light text color */
+        }
+
+        body.dark-mode .glass-effect {
+            background: rgba(30, 41, 59, 0.6);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body.dark-mode .sidebar {
+            background: #0f172a; /* Darker sidebar */
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        body.dark-mode .logo-text {
+            color: white;
+        }
+
+        body.dark-mode .logo-container {
+            border-bottom-color: rgba(255, 255, 255, 0.1);
+        }
+
+        body.dark-mode .nav-link {
+            color: #cbd5e1;
+        }
+
+        body.dark-mode .nav-item:hover .nav-link,
+        body.dark-mode .nav-item.active .nav-link {
+            color: white; /* Still white on gradient */
+        }
+
+        body.dark-mode .nav-icon {
+            color: #94a3b8;
+        }
+
+        body.dark-mode .nav-item:hover .nav-icon,
+        body.dark-mode .nav-item.active .nav-icon {
+            color: white;
+        }
+
+        body.dark-mode .tooltip {
+            background: #0f172a;
+            color: white;
+        }
+
+        body.dark-mode .tooltip::before {
+            border-right-color: #0f172a;
+        }
+
+        body.dark-mode .kpi-card {
+            background: #1e293b;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body.dark-mode .kpi-card:hover {
+            background: #1e293b; /* Keep dark background on hover */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        body.dark-mode .chart-container {
+            background: #1e293b;
+        }
+
+        body.dark-mode .search-input {
+            background: #0f172a;
+            border: 1px solid #475569;
+            color: white;
+        }
+
+        body.dark-mode .search-icon {
+            color: #94a3b8;
+        }
+
+        body.dark-mode .theme-toggle {
+            background: #0f172a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body.dark-mode .theme-toggle:hover {
+            background: #1f293b;
+        }
+
+        body.dark-mode .theme-toggle svg {
+            color: white; /* White icon for dark mode */
+        }
+
+        body.dark-mode .loading-spinner {
+            border-color: rgba(255, 255, 255, 0.3);
+            border-top-color: #667eea; /* Same accent color */
+        }
+
+        body.dark-mode .modal-content {
+            background: #1e293b;
+            color: #cbd5e1;
+        }
+
+        body.dark-mode .modal-content .text-gray-700 {
+            color: #cbd5e1;
+        }
+
+        body.dark-mode .modal-content .text-gray-800 {
+            color: white;
+        }
+
+        body.dark-mode .modal-content .text-gray-600 {
+            color: #94a3b8;
+        }
+
+        body.dark-mode .modal-content label {
+            color: #cbd5e1;
+        }
+
+        body.dark-mode .modal-content input,
+        body.dark-mode .modal-content select {
+            background: #0f172a;
+            border-color: #475569;
+            color: white;
+        }
+
+        body.dark-mode .min-w-full.bg-white.bg-opacity-80 {
+            background: rgba(30, 41, 59, 0.6); /* Darker table background */
+        }
+
+        body.dark-mode .min-w-full.bg-white.bg-opacity-80 thead {
+            background: #1f293b; /* Darker table header */
+        }
+
+        body.dark-mode .min-w-full.bg-white.bg-opacity-80 th {
+            color: #cbd5e1; /* Light text for table headers */
+        }
+
+        body.dark-mode .min-w-full.bg-white.bg-opacity-80 td {
+            color: #cbd5e1; /* Light text for table data */
+        }
+
+        body.dark-mode .min-w-full.bg-white.bg-opacity-80 tr.border-b {
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        body.dark-mode .min-w-full.bg-white.bg-opacity-80 tr.hover\:bg-gray-100:hover {
+            background: rgba(45, 55, 72, 0.7); /* Darker hover effect */
+        }
+
+        body.dark-mode .text-white {
+            color: #cbd5e1; /* Adjust general text-white to be less bright in dark mode */
+        }
+
+        body.dark-mode .text-red-600 {
+            color: #fca5a5; /* Lighter red for dark mode */
+        }
+
+        body.dark-mode .text-green-600 {
+            color: #a7f3d0; /* Lighter green for dark mode */
+        }
+
+        body.dark-mode .text-indigo-600 {
+            color: #a5b4fc; /* Lighter indigo for dark mode */
+        }
+
+        body.dark-mode .text-red-50 {
+            background-color: rgba(252, 165, 165, 0.1); /* Subtle red background for low stock in dark mode */
+        }
     </style>
 </head>
 <body>
     <div id="mobileOverlay" class="mobile-overlay"></div>
     
     <button id="themeToggle" class="theme-toggle">
-        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
         </svg>
     </button>
@@ -397,13 +591,13 @@
         <div class="logo-container">
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
-                    <div class="logo-icon w-10 h-10 bg-gradient-to-br from-indigo-400 to-purple-500 rounded-lg flex items-center justify-center">
+                    <div class="logo-icon w-10 h-10 bg-gradient-to-br from-indigo-400 to-purple-500 rounded-lg flex items-center justify-center mx-auto">
                         <span class="text-white font-bold text-xl">E</span>
                     </div>
-                    <h1 class="logo-text text-2xl font-bold text-white ml-3 bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">EconoArena</h1>
+                    <h1 class="logo-text text-2xl font-bold ml-3 bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">EconoArena</h1>
                 </div>
-                <button id="toggleSidebar" class="p-2 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600 transition-colors">
-                    <svg class="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <button id="toggleSidebar" class="p-2 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 transition-colors">
+                    <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
                 </button>
@@ -484,12 +678,12 @@
         <header class="glass-effect p-6 rounded-2xl mb-8">
             <div class="flex justify-between items-center">
                 <div class="flex items-center">
-                    <button id="mobileMenuToggle" class="lg:hidden p-2 rounded-lg hover:bg-white hover:bg-opacity-20 mr-4">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <button id="mobileMenuToggle" class="lg:hidden p-2 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 transition-colors">
+                        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                         </svg>
                     </button>
-                    <h2 id="moduleTitle" class="text-3xl font-bold text-white">Dashboard General</h2>
+                    <h2 id="moduleTitle" class="text-3xl font-bold text-gray-800">Dashboard General</h2>
                 </div>
                 <div class="flex items-center space-x-4">
                     <div class="search-container hidden md:block">
@@ -498,15 +692,15 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                         </svg>
                     </div>
-                    <span class="text-white font-medium hidden md:block">Bienvenido, Eduardo</span>
-                    <button id="notificationButton" class="relative p-3 rounded-full hover:bg-white hover:bg-opacity-20 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition-all">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <span class="text-gray-700 font-medium hidden md:block">Bienvenido, Eduardo</span>
+                    <button id="notificationButton" class="relative p-3 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 transition-all">
+                        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
                         </svg>
                         <span class="notification-badge absolute -top-1 -right-1 block h-4 w-4 rounded-full ring-2 ring-white bg-red-500 text-xs text-white flex items-center justify-center">7</span>
                     </button>
-                    <button id="profileButton" class="p-3 rounded-full hover:bg-white hover:bg-opacity-20 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition-all">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <button id="profileButton" class="p-3 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 transition-all">
+                        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                     </button>
@@ -686,7 +880,7 @@
                         mobileOverlay.classList.remove('active');
                     }
                 } else {
-                    dynamicContent.innerHTML = `<p class="text-white text-center text-xl">Contenido para "${moduleName}" no disponible.</p>`;
+                    dynamicContent.innerHTML = `<p class="text-gray-700 text-center text-xl">Contenido para "${moduleName}" no disponible.</p>`;
                 }
             }, 500); // Simulate network delay
         }
@@ -737,13 +931,13 @@
                         legend: {
                             position: 'right',
                             labels: {
-                                color: '#333'
+                                color: document.body.classList.contains('dark-mode') ? '#cbd5e1' : '#333'
                             }
                         },
                         title: {
                             display: true,
                             text: 'Stock por Categoría',
-                            color: '#333',
+                            color: document.body.classList.contains('dark-mode') ? '#cbd5e1' : '#333',
                             font: {
                                 size: 18,
                                 weight: 'bold'
@@ -788,7 +982,7 @@
                         title: {
                             display: true,
                             text: 'Movimientos Recientes (Cantidad)',
-                            color: '#333',
+                            color: document.body.classList.contains('dark-mode') ? '#cbd5e1' : '#333',
                             font: {
                                 size: 18,
                                 weight: 'bold'
@@ -799,12 +993,12 @@
                         y: {
                             beginAtZero: true,
                             ticks: {
-                                color: '#333'
+                                color: document.body.classList.contains('dark-mode') ? '#cbd5e1' : '#333'
                             }
                         },
                         x: {
                             ticks: {
-                                color: '#333'
+                                color: document.body.classList.contains('dark-mode') ? '#cbd5e1' : '#333'
                             }
                         }
                     }
@@ -984,33 +1178,13 @@
          * Toggles between light and dark mode.
          */
         themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode'); // Add/remove a class for dark mode
-            // You would typically change CSS variables or a global theme here
-            // For this example, we'll just change the background slightly
-            if (document.body.classList.contains('dark-mode')) {
-                document.body.style.background = 'linear-gradient(135deg, #2d3748 0%, #1a202c 100%)';
-                document.querySelector('.glass-effect').style.background = 'rgba(0, 0, 0, 0.25)';
-                document.querySelector('.glass-effect').style.borderColor = 'rgba(255, 255, 255, 0.1)';
-                document.querySelector('.main-content').style.background = 'rgba(0, 0, 0, 0.1)';
-                document.querySelectorAll('.chart-container').forEach(el => {
-                    el.style.background = 'rgba(0, 0, 0, 0.9)';
-                });
-                document.querySelectorAll('.kpi-card').forEach(el => {
-                    el.style.background = 'rgba(0, 0, 0, 0.9)';
-                    el.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-                });
-            } else {
-                document.body.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-                document.querySelector('.glass-effect').style.background = 'rgba(255, 255, 255, 0.25)';
-                document.querySelector('.glass-effect').style.borderColor = 'rgba(255, 255, 255, 0.18)';
-                document.querySelector('.main-content').style.background = 'rgba(255, 255, 255, 0.1)';
-                document.querySelectorAll('.chart-container').forEach(el => {
-                    el.style.background = 'rgba(255, 255, 255, 0.9)';
-                });
-                 document.querySelectorAll('.kpi-card').forEach(el => {
-                    el.style.background = 'rgba(255, 255, 255, 0.9)';
-                    el.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-                });
+            document.body.classList.toggle('dark-mode');
+            // Re-initialize charts to update their text colors based on the new theme
+            const currentModule = moduleTitle.textContent;
+            if (currentModule === 'Dashboard') {
+                initializeDashboardCharts();
+            } else if (currentModule === 'Análisis') {
+                initializeAnalyticsCharts();
             }
         });
 
@@ -1032,7 +1206,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                                     </svg>
                                 </div>
-                                <p class="text-white font-semibold">Entrada Rápida</p>
+                                <p class="font-semibold">Entrada Rápida</p>
                             </button>
                             <button class="glass-effect p-6 rounded-2xl text-center hover:scale-105 transition-all duration-300" onclick="showQuickAction('Salida')">
                                 <div class="w-12 h-12 bg-gradient-to-br from-red-400 to-pink-500 rounded-xl flex items-center justify-center mx-auto mb-3">
@@ -1040,7 +1214,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
                                     </svg>
                                 </div>
-                                <p class="text-white font-semibold">Salida Rápida</p>
+                                <p class="font-semibold">Salida Rápida</p>
                             </button>
                             <button class="glass-effect p-6 rounded-2xl text-center hover:scale-105 transition-all duration-300" onclick="generateReport()">
                                 <div class="w-12 h-12 bg-gradient-to-br from-purple-400 to-indigo-500 rounded-xl flex items-center justify-center mx-auto mb-3">
@@ -1048,7 +1222,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 2v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                                     </svg>
                                 </div>
-                                <p class="text-white font-semibold">Generar Reporte</p>
+                                <p class="font-semibold">Generar Reporte</p>
                             </button>
                             <button class="glass-effect p-6 rounded-2xl text-center hover:scale-105 transition-all duration-300" onclick="addProduct()">
                                 <div class="w-12 h-12 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-xl flex items-center justify-center mx-auto mb-3">
@@ -1056,7 +1230,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
                                 </div>
-                                <p class="text-white font-semibold">Añadir Producto</p>
+                                <p class="font-semibold">Añadir Producto</p>
                             </button>
                         </section>
 
@@ -1089,7 +1263,7 @@
                         </section>
 
                         <section class="glass-effect p-6 rounded-2xl">
-                            <h3 class="text-2xl font-bold text-white mb-4">Movimientos Recientes</h3>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-4">Movimientos Recientes</h3>
                             <div class="overflow-x-auto">
                                 <table class="min-w-full bg-white bg-opacity-80 rounded-lg overflow-hidden">
                                     <thead class="bg-gray-200">
@@ -1124,8 +1298,8 @@
             },
             'Gestión de Movimientos': () => `
                 <section class="glass-effect p-6 rounded-2xl">
-                    <h3 class="text-2xl font-bold text-white mb-4">Gestión de Movimientos</h3>
-                    <p class="text-white mb-4">Aquí puedes registrar y gestionar todas las entradas y salidas de productos.</p>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Gestión de Movimientos</h3>
+                    <p class="text-gray-700 mb-4">Aquí puedes registrar y gestionar todas las entradas y salidas de productos.</p>
                     <button class="btn-primary mb-4" onclick="showQuickAction('Entrada')">Registrar Entrada</button>
                     <button class="btn-primary mb-4 ml-4" onclick="showQuickAction('Salida')">Registrar Salida</button>
                     <div class="overflow-x-auto">
@@ -1147,8 +1321,8 @@
             `,
             'Control de Inventario': () => `
                 <section class="glass-effect p-6 rounded-2xl">
-                    <h3 class="text-2xl font-bold text-white mb-4">Control de Inventario</h3>
-                    <p class="text-white mb-4">Gestiona tus productos, actualiza stock y visualiza detalles.</p>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Control de Inventario</h3>
+                    <p class="text-gray-700 mb-4">Gestiona tus productos, actualiza stock y visualiza detalles.</p>
                     <button class="btn-primary mb-4" onclick="addProduct()">Añadir Nuevo Producto</button>
                     <div class="overflow-x-auto">
                         <table id="productsTable" class="min-w-full bg-white bg-opacity-80 rounded-lg overflow-hidden">
@@ -1172,70 +1346,70 @@
             `,
             'Reportes': () => `
                 <section class="glass-effect p-6 rounded-2xl">
-                    <h3 class="text-2xl font-bold text-white mb-4">Reportes</h3>
-                    <p class="text-white mb-4">Genera diversos reportes para obtener información valiosa sobre tu inventario.</p>
-                    <ul class="space-y-3 text-white">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Reportes</h3>
+                    <p class="text-gray-700 mb-4">Genera diversos reportes para obtener información valiosa sobre tu inventario.</p>
+                    <ul class="space-y-3 text-gray-700">
                         <li>
                             <button class="btn-primary w-full text-left" onclick="generateReport()">Reporte de Stock Actual</button>
-                            <p class="text-sm text-gray-300 mt-1">Un resumen del stock de todos los productos.</p>
+                            <p class="text-sm text-gray-600 mt-1">Un resumen del stock de todos los productos.</p>
                         </li>
                         <li>
                             <button class="btn-primary w-full text-left" onclick="displayMessage('Generando reporte de movimientos por fecha...', 'Reporte de Movimientos')">Reporte de Movimientos por Fecha</button>
-                            <p class="text-sm text-gray-300 mt-1">Detalle de entradas y salidas en un rango de fechas.</p>
+                            <p class="text-sm text-gray-600 mt-1">Detalle de entradas y salidas en un rango de fechas.</p>
                         </li>
                         <li>
                             <button class="btn-primary w-full text-left" onclick="displayMessage('Generando reporte de productos bajo stock mínimo...', 'Reporte de Alertas')">Reporte de Alertas de Stock Mínimo</button>
-                            <p class="text-sm text-gray-300 mt-1">Lista de productos que necesitan ser reabastecidos.</p>
+                            <p class="text-sm text-gray-600 mt-1">Lista de productos que necesitan ser reabastecidos.</p>
                         </li>
                     </ul>
                 </section>
             `,
             'Análisis': () => `
                 <section class="glass-effect p-6 rounded-2xl">
-                    <h3 class="text-2xl font-bold text-white mb-4">Análisis Avanzado</h3>
-                    <p class="text-white mb-4">Explora tendencias y proyecciones de inventario.</p>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Análisis Avanzado</h3>
+                    <p class="text-gray-700 mb-4">Explora tendencias y proyecciones de inventario.</p>
                     <div class="chart-container glass-effect mb-6">
                         <canvas id="inventoryValueTrendChart"></canvas>
                     </div>
-                    <p class="text-white">Esta sección podría incluir análisis de tendencias de valor de inventario, rotación de productos, y pronósticos de demanda.</p>
+                    <p class="text-gray-700">Esta sección podría incluir análisis de tendencias de valor de inventario, rotación de productos, y pronósticos de demanda.</p>
                 </section>
             `,
             'Seguridad': () => `
                 <section class="glass-effect p-6 rounded-2xl">
-                    <h3 class="text-2xl font-bold text-white mb-4">Seguridad</h3>
-                    <p class="text-white mb-4">Gestiona los roles de usuario y los permisos de acceso.</p>
-                    <ul class="space-y-3 text-white">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Seguridad</h3>
+                    <p class="text-gray-700 mb-4">Gestiona los roles de usuario y los permisos de acceso.</p>
+                    <ul class="space-y-3 text-gray-700">
                         <li>
                             <button class="btn-primary w-full text-left" onclick="displayMessage('Gestionando usuarios y roles...', 'Gestión de Usuarios')">Gestión de Usuarios y Roles</button>
-                            <p class="text-sm text-gray-300 mt-1">Añade, edita o elimina usuarios y asigna roles (administrador, operador de inventario, etc.).</p>
+                            <p class="text-sm text-gray-600 mt-1">Añade, edita o elimina usuarios y asigna roles (administrador, operador de inventario, etc.).</p>
                         </li>
                         <li>
                             <button class="btn-primary w-full text-left" onclick="displayMessage('Configurando políticas de contraseña...', 'Políticas de Contraseña')">Políticas de Contraseña</button>
-                            <p class="text-sm text-gray-300 mt-1">Define requisitos de complejidad y caducidad de contraseñas.</p>
+                            <p class="text-sm text-gray-600 mt-1">Define requisitos de complejidad y caducidad de contraseñas.</p>
                         </li>
                         <li>
                             <button class="btn-primary w-full text-left" onclick="displayMessage('Revisando registros de auditoría...', 'Registros de Auditoría')">Registros de Auditoría</button>
-                            <p class="text-sm text-gray-300 mt-1">Visualiza un historial de todas las acciones realizadas en el sistema.</p>
+                            <p class="text-sm text-gray-600 mt-1">Visualiza un historial de todas las acciones realizadas en el sistema.</p>
                         </li>
                     </ul>
                 </section>
             `,
             'Configuración': () => `
                 <section class="glass-effect p-6 rounded-2xl">
-                    <h3 class="text-2xl font-bold text-white mb-4">Configuración</h3>
-                    <p class="text-white mb-4">Ajusta las preferencias del sistema y la información de la empresa.</p>
-                    <ul class="space-y-3 text-white">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Configuración</h3>
+                    <p class="text-gray-700 mb-4">Ajusta las preferencias del sistema y la información de la empresa.</p>
+                    <ul class="space-y-3 text-gray-700">
                         <li>
                             <button class="btn-primary w-full text-left" onclick="displayMessage('Ajustando notificaciones...', 'Configuración de Notificaciones')">Configuración de Notificaciones</button>
-                            <p class="text-sm text-gray-300 mt-1">Personaliza las alertas de stock bajo, movimientos inusuales, etc.</p>
+                            <p class="text-sm text-gray-600 mt-1">Personaliza las alertas de stock bajo, movimientos inusuales, etc.</p>
                         </li>
                         <li>
                             <button class="btn-primary w-full text-left" onclick="displayMessage('Gestionando ubicaciones de almacén...', 'Gestión de Ubicaciones')">Gestión de Ubicaciones de Almacén</button>
-                            <p class="text-sm text-gray-300 mt-1">Añade, edita o elimina ubicaciones físicas de almacenamiento.</p>
+                            <p class="text-sm text-gray-600 mt-1">Añade, edita o elimina ubicaciones físicas de almacenamiento.</p>
                         </li>
                         <li>
                             <button class="btn-primary w-full text-left" onclick="displayMessage('Configurando integración con sistemas externos...', 'Integraciones')">Integraciones</button>
-                            <p class="text-sm text-gray-300 mt-1">Conecta EconoArena con otros sistemas (ej. contabilidad, e-commerce).</p>
+                            <p class="text-sm text-gray-600 mt-1">Conecta EconoArena con otros sistemas (ej. contabilidad, e-commerce).</p>
                         </li>
                     </ul>
                 </section>
@@ -1442,7 +1616,7 @@
                         title: {
                             display: true,
                             text: 'Tendencia de Valor de Inventario',
-                            color: '#333',
+                            color: document.body.classList.contains('dark-mode') ? '#cbd5e1' : '#333',
                             font: {
                                 size: 18,
                                 weight: 'bold'
@@ -1450,7 +1624,7 @@
                         },
                         legend: {
                             labels: {
-                                color: '#333'
+                                color: document.body.classList.contains('dark-mode') ? '#cbd5e1' : '#333'
                             }
                         }
                     },
@@ -1458,12 +1632,12 @@
                         y: {
                             beginAtZero: true,
                             ticks: {
-                                color: '#333'
+                                color: document.body.classList.contains('dark-mode') ? '#cbd5e1' : '#333'
                             }
                         },
                         x: {
                             ticks: {
-                                color: '#333'
+                                color: document.body.classList.contains('dark-mode') ? '#cbd5e1' : '#333'
                             }
                         }
                     }
